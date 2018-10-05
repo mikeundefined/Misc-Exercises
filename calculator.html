@@ -1,0 +1,148 @@
+<!doctype html>
+<!--- Javascript calculator written by Michael Nathan 9/20/2018 --->
+<html>
+    <head>
+        <title>Javascript Calculator</title>
+    </head>
+    <style>
+        body {
+            background: linear-gradient(90deg, darkblue, purple);
+        }
+        #main {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-self: center;
+        }
+        #calc {
+            width: 240px;
+            margin: auto;
+            background-color: rgba(000,000,000,0.3);
+            padding: 5px; 
+        }
+        #calc button {
+            color: #fff;
+            font-weight: bold;
+            border: none;
+        }
+        #window {
+            text-align: right;
+            margin: 5px;
+            width: 219px;
+            height: 50px;
+            background-color: rgba(255, 255, 255, 0.623);
+            border: none;
+            padding: 0 5px;
+            font-weight: bold;
+            font-size: 20px;
+            font-family: courier;
+        }
+        #numPad {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+        }
+        .numButton {
+            width: 50px;
+            height: 50px;
+            margin: 5px;
+            background-color: rgba(000,000,000,0.5);
+        }
+        .arithmeticButton {
+            width: 50px;
+            height: 50px;
+            margin: 5px;
+            background-color: rgba(140, 0, 255, 0.3);
+        }
+        .equalsButton {
+            grid-column: 4 / span 1;
+            grid-row: third-line / 4;
+            height: 110px;
+            width: 50px;
+            margin: 5px;
+            background-color: rgba(0, 255, 85, 0.35);   
+        }
+        .clearButton {
+            grid-column: 4 / span 1;
+            grid-row: 2 / 4;
+            height: 110px;
+            width: 50px;
+            margin: 5px;
+            background-color: rgba(255, 81, 0, 0.35);  
+        }
+        .backspaceButton {
+            background-color: rgba(0, 217, 255, 0.35);
+        }
+    </style>
+    <body>
+        <div id="main">
+            <div id="calc">
+                <input id="window" type="text" />
+                <div id="numPad">
+
+                    <button class="arithmeticButton" onClick="inputNumber('+')">+</button>
+                    <button class="arithmeticButton" onClick="inputNumber('-')">-</button>
+                    <button class="arithmeticButton" onClick="inputNumber('/')">/</button>
+                    <button class="arithmeticButton" onClick="inputNumber('*')">x</button>
+
+                    <button class="numButton" onClick="inputNumber(7)">7</button>
+                    <button class="numButton" onClick="inputNumber(8)">8</button>
+                    <button class="numButton" onClick="inputNumber(9)">9</button>
+                 
+                    <button class="numButton" onClick="inputNumber(4)">4</button>
+                    <button class="numButton" onClick="inputNumber(5)">5</button>
+                    <button class="numButton" onClick="inputNumber(6)">6</button>
+                    <button class="clearButton" onClick="clearWindow()">C</button>
+
+                    <button class="numButton" onClick="inputNumber(1)">1</button>
+                    <button class="numButton" onClick="inputNumber(2)">2</button>
+                    <button class="numButton" onClick="inputNumber(3)">3</button>
+
+                    <button class="numButton" onClick="inputNumber('.')">.</button>
+                    <button class="numButton" onClick="inputNumber(0)">0</button>
+                    <button class="numButton backspaceButton" onClick="backspace()"><</button>
+                    <button onClick="equals()" class="equalsButton">=</button>
+                    
+                </div>
+            </div>
+        </div>
+        <script type="text/Javascript">
+            //Here I declare a variable to represent any numbers or arithmetic in the window.
+            let numbersInTheWindow = '';
+
+            //This function handles presses of the numbers and arithmetic buttons and displays the appropriate items in the window.
+            function inputNumber(number) {
+                numbersInTheWindow += number;
+                return document.querySelector('#window').value = numbersInTheWindow;
+            }
+
+            //This function evaluates the numbers and arithmetic in the window and returns the answer to the window
+            function equals() {
+                
+                let currentValue = document.querySelector('#window').value = numbersInTheWindow;
+                let newValue = eval(currentValue);
+                
+                numbersInTheWindow = newValue;
+                //If there is no expression evaluate display nothing. (If we don't do this, it will show 'undefined' in the window.)
+                newValue === undefined ? newValue = '' : newValue = newValue;
+                 return document.querySelector('#window').value = newValue;
+            
+            }
+
+            //This function removes the most recently added number or symbol in the window.
+            function backspace() {
+                numbersInTheWindow = numbersInTheWindow.slice(0, -1);
+                return document.querySelector('#window').value = numbersInTheWindow;
+            }
+
+            //This function clears the window.
+            function clearWindow() {
+                numbersInTheWindow = '';
+                return document.querySelector('#window').value = numbersInTheWindow;
+            }
+        </script>
+
+    </body>
+</html>
