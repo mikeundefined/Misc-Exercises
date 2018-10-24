@@ -1,3 +1,4 @@
+<!-- Michael Nathan 10/23/2018 -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,24 +10,44 @@
         .square {
             width: 100px;
             height: 100px;
-            background-color: gray;
+            background-color: rgba(0, 0, 0, 0.877);
             font-family: sans-serif;
             font-size: 40px;
+            color: lightgray;
             font-weight: bold;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 2px;
+            margin: 3px;
             float: left;
             border: none;
+            border-radius: 5px;
+            z-index: 3;
         }
         .square:hover {
-            background-color: lightgray;
+            background-color: rgba(211, 211, 211, 0.274);
         }
         .container {
-            width: 312px;
-            background-color: black;
+            width: 318px;
+            background-color: rgba(0, 0, 0, 0.671);
             display: block;
+            border-radius: 5px;
+            padding: 3px;
+        }
+        .status {
+            margin-top: 6px;
+            color: lightgray;
+            font-weight: bold;
+            font-family: sans-serif;
+            text-align: center;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(45deg,rgb(150, 37, 146), blue);
+            flex-direction: column;
         }
     </style>
 
@@ -46,14 +67,13 @@
         <div class="square" id="9" onclick="selectSquare(this.id)"></div>
 
     </div>
-    Player Turn: <span id="turn"></span><br />
-    <span id="winner"></span>
-
+    <div class="container status">
+        Player Turn: <span id="turn">X</span><br />
+        <span id="winner"></span>
+    </div>
 
 <script type="text/javascript">
-    let board = ['','','',
-                 '','','',
-                 '','',''];
+    let board = ['','','','','','','','',''];
 
     var winningCombo = [
         [1, 4, 7],
@@ -65,31 +85,41 @@
         [1, 5, 9],
         [3, 5, 7]
     ];
+
     let turn = 'X';
+    let turnsTaken = 0;
+    let gameOver = false;
     
     function selectSquare(square) {
-        if (document.getElementById(square).innerHTML == '') {
+        //Only execute if the square is empty and the game is not over.
+        if ((document.getElementById(square).innerHTML == '') && (gameOver === false)) {
             document.getElementById(square).innerHTML = turn;
             board[square] = turn;
-        }
+            turnsTaken += 1;
+        
+            //Check to see if the player won with their last move.
+            for (let s = 0; s < 8; s++) {
+                if ((document.getElementById(winningCombo[s][0]).innerHTML == turn) && 
+                    (document.getElementById(winningCombo[s][1]).innerHTML == turn) && 
+                    (document.getElementById(winningCombo[s][2]).innerHTML == turn)) {
 
-        for (let s = 0; s < 8; s++) {
-            if ((document.getElementById(winningCombo[s][0]).innerHTML == turn) && 
-                (document.getElementById(winningCombo[s][1]).innerHTML == turn) && 
-                (document.getElementById(winningCombo[s][2]).innerHTML == turn)) {
-
-                document.getElementById("winner").innerHTML = 'THE WINNER IS: ' + turn;
+                    document.getElementById("winner").innerHTML = turn + ' Wins!';
+                    gameOver = true;
+                    turnsTaken = 0;
+                }
             }
-            console.log(document.getElementById(winningCombo[s][0]).innerHTML);
-        }
 
-        if (turn == 'X') {
-            turn = 'O';
-        } else {
-            turn = 'X';
+            //Check to see if the board is full if no one wins, if so, end the game.
+            if (turnsTaken == 9) {
+                gameOver = true;
+                document.getElementById("winner").innerHTML = 'Tie Game!';
+            }
+            
+            //Change the turn.
+            turn == 'X' ? turn = 'O' : turn = 'X';
+            
         }
     }
-
 </script>   
 </body>
 </html>
