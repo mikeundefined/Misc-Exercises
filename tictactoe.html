@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Page Title</title>
+    <title>Tic-Tac-Toe JS</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         .square {
@@ -11,7 +11,7 @@
             height: 100px;
             background-color: gray;
             font-family: sans-serif;
-            font-size: 20px;
+            font-size: 40px;
             font-weight: bold;
             display: flex;
             justify-content: center;
@@ -26,28 +26,69 @@
         .container {
             width: 312px;
             background-color: black;
+            display: block;
         }
     </style>
 
 </head>
 <body>
     <div class="container">
-        <div class="square" id="1"></div>
-        <div class="square" id="2"></div>
-        <div class="square" id="3"></div>
+        <div class="square" id="1" onclick="selectSquare(this.id)"></div>
+        <div class="square" id="2" onclick="selectSquare(this.id)"></div>
+        <div class="square" id="3" onclick="selectSquare(this.id)"></div>
 
-        <div class="square" id="4"></div>
-        <div class="square" id="5"></div>
-        <div class="square" id="6"></div>
+        <div class="square" id="4" onclick="selectSquare(this.id)"></div>
+        <div class="square" id="5" onclick="selectSquare(this.id)"></div>
+        <div class="square" id="6" onclick="selectSquare(this.id)"></div>
 
-        <div class="square" id="7"></div>
-        <div class="square" id="8"></div>
-        <div class="square" id="9"></div>
+        <div class="square" id="7" onclick="selectSquare(this.id)"></div>
+        <div class="square" id="8" onclick="selectSquare(this.id)"></div>
+        <div class="square" id="9" onclick="selectSquare(this.id)"></div>
 
     </div>
+    Player Turn: <span id="turn"></span><br />
+    <span id="winner"></span>
+
 
 <script type="text/javascript">
+    let board = ['','','',
+                 '','','',
+                 '','',''];
 
+    var winningCombo = [
+        [1, 4, 7],
+        [2, 5, 8],
+        [3, 6, 9],
+        [1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9],
+        [1, 5, 9],
+        [3, 5, 7]
+    ];
+    let turn = 'X';
+    
+    function selectSquare(square) {
+        if (document.getElementById(square).innerHTML == '') {
+            document.getElementById(square).innerHTML = turn;
+            board[square] = turn;
+        }
+
+        for (let s = 0; s < 8; s++) {
+            if ((document.getElementById(winningCombo[s][0]).innerHTML == turn) && 
+                (document.getElementById(winningCombo[s][1]).innerHTML == turn) && 
+                (document.getElementById(winningCombo[s][2]).innerHTML == turn)) {
+
+                document.getElementById("winner").innerHTML = 'THE WINNER IS: ' + turn;
+            }
+            console.log(document.getElementById(winningCombo[s][0]).innerHTML);
+        }
+
+        if (turn == 'X') {
+            turn = 'O';
+        } else {
+            turn = 'X';
+        }
+    }
 
 </script>   
 </body>
